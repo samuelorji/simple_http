@@ -23,7 +23,10 @@ pub fn parseToHttpRequest(bytes: &[u8]) -> Result<HttpRequest, HttpParserErrors>
             .collect::<Vec<&str>>().iter()
             .map(|queryStr| {
                 let item =  queryStr.split("=").collect::<Vec<&str>>();
-                (item[0],item[1])
+
+                let queryOpt = item.get(1);
+
+                (item[0],*queryOpt.unwrap_or(&""))
             })
             .collect::<HashMap<&str,&str>>();
 
